@@ -149,6 +149,7 @@ docker run -d --name sonar -p 9000:9000 sonarqube:lts-community
 ![part 13](https://github.com/Sanjo-varghese/chatbot-ui--DevSecOps/assets/116708794/b05e6e81-0bfd-416d-817e-47f6ab1f30cf)
 
 **Enter username and password, click on login and change password**
+
 ```sh
 username admin
 password admin
@@ -157,9 +158,11 @@ password admin
 ![part 14](https://github.com/Sanjo-varghese/chatbot-ui--DevSecOps/assets/116708794/4aa10a13-ea0e-48e5-8ebc-13736e95f327)
 
 **Update New password, This is Sonar Dashboard.**
+
 ![part 15](https://github.com/Sanjo-varghese/chatbot-ui--DevSecOps/assets/116708794/100cc850-ea1d-4283-8d22-ac6e06da1749)
 
 **Install Trivy, Kubectl,Terraform**
+
 ```sh
 vi script.sh
 ```
@@ -200,6 +203,7 @@ sudo chmod 777 script.sh
 # Install Plugins like JDK, Sonarqube Scanner, NodeJs, OWASP Dependency Check
 
 # Install Plugin
+
 **Goto Manage Jenkins →Plugins → Available Plugins →**
 
 **Install below plugins**
@@ -233,6 +237,7 @@ sudo chmod 777 script.sh
 **13 → Kubernetes Pipeline DevOps steps**
 
 # Configure Java and Nodejs in Global Tool Configuration
+
 **Goto Manage Jenkins → Tools → Install JDK(17) and NodeJs(19)→ Click on Apply and Save**
 
 ![part 17](https://github.com/Sanjo-varghese/chatbot-ui--DevSecOps/assets/116708794/488f23c6-aa2a-48dc-b356-68d0843ae472)
@@ -244,6 +249,7 @@ sudo chmod 777 script.sh
 ![part 18](https://github.com/Sanjo-varghese/chatbot-ui--DevSecOps/assets/116708794/01ed0c69-ed91-409e-a14c-d8155d9c5f65)
 
 **click on update Token**
+
 ![part 19](https://github.com/Sanjo-varghese/chatbot-ui--DevSecOps/assets/116708794/38a3e363-2955-42c2-a07c-6f32a8fdee98)
 
 **Create a token with a name and generate**
@@ -253,12 +259,15 @@ sudo chmod 777 script.sh
 **copy Token**
 
 **Go to Jenkins Dashboard → Manage Jenkins → Credentials → Add Secret Text. It should look like this**
+
 ![part 21](https://github.com/Sanjo-varghese/chatbot-ui--DevSecOps/assets/116708794/108a9ca8-b8fe-495e-bb53-db242ce9ca7e)
 
 **You will this page once you click on create**
+
 ![part 22](https://github.com/Sanjo-varghese/chatbot-ui--DevSecOps/assets/116708794/77f3df7e-40b1-4dcb-a9ca-3143a7f3cd22)
 
 **Now, go to Dashboard → Manage Jenkins → System and Add like the below image.**
+
 ![part 23](https://github.com/Sanjo-varghese/chatbot-ui--DevSecOps/assets/116708794/2c1e891a-d20c-4d5e-99c1-8d46e3647968)
 
 **Click on Apply and Save**
@@ -270,6 +279,7 @@ sudo chmod 777 script.sh
 **We will install a sonar scanner in the tools.**
 
 **Manage Jenkins –> Tools –> SonarQube Scanner**
+
 ![part 24](https://github.com/Sanjo-varghese/chatbot-ui--DevSecOps/assets/116708794/02d6e487-39b5-4065-8cb6-55d03e00c08a)
 
 **In the Sonarqube Dashboard add a quality gate also**
@@ -277,10 +287,13 @@ sudo chmod 777 script.sh
 **Administration–> Configuration–>Webhooks**
 
 ![part 25](https://github.com/Sanjo-varghese/chatbot-ui--DevSecOps/assets/116708794/ffcb1877-2602-4471-8b6a-4654ef1ec7c2)
+
 **Click on Create**
+
 ![part 26](https://github.com/Sanjo-varghese/chatbot-ui--DevSecOps/assets/116708794/c971a9a6-024b-4a57-957c-495af6450691)
 
 **Add details**
+
 ```sh
 #in url section of quality gate
 <http://jenkins-public-ip:8080>/sonarqube-webhook/
@@ -292,6 +305,7 @@ sudo chmod 777 script.sh
 **First, we configured the Plugin and next, we had to configure the Tool**
 
 **Goto Dashboard → Manage Jenkins → Tools →***
+
 ![part 28](https://github.com/Sanjo-varghese/chatbot-ui--DevSecOps/assets/116708794/88fdd811-a8a2-4ced-a346-4432a51463a6)
 
 **Click on Apply and Save here.**
@@ -307,11 +321,13 @@ sudo chmod 777 script.sh
 ```sh
 terraform
 ```
+
 ![part 30](https://github.com/Sanjo-varghese/chatbot-ui--DevSecOps/assets/116708794/f8eb06dd-6d31-43c2-a8de-680ad991983d)
 
 **Go to manage Jenkins –> Credentials**
 
 **Add DockerHub Username and Password under Global Credentials**
+
 ![part 31](https://github.com/Sanjo-varghese/chatbot-ui--DevSecOps/assets/116708794/9009232f-6597-4915-94bd-84fdb32bb2b5)
 
 **Create EKS Cluster from Jenkins**
@@ -319,6 +335,7 @@ terraform
 - CHANGE YOUR S3 BUCKET NAME IN THE BACKEND.TF
  
 **Now create a new job for the Eks provision**
+
 ![part 32](https://github.com/Sanjo-varghese/chatbot-ui--DevSecOps/assets/116708794/40bc2cc8-c4e2-4081-98c9-4594475d05b7)
 
 **I want to do this with build parameters to apply and destroy while building only.**
@@ -328,6 +345,7 @@ terraform
 ![part 33](https://github.com/Sanjo-varghese/chatbot-ui--DevSecOps/assets/116708794/57027153-93bb-4e72-9ac1-53d922db0f3e)
 
 **Let’s add a pipeline**
+
 ```sh
 pipeline{
     agent any
@@ -374,13 +392,20 @@ pipeline{
 }
 ```
 **Let’s apply and save and Build with parameters and select action as apply**
+
 ![part 34](https://github.com/Sanjo-varghese/chatbot-ui--DevSecOps/assets/116708794/87d0c5f8-f095-414b-9224-830a1456ed49)
+
 - Stage view it will take max 10mins to provision
 - Blue ocean output
+
  ![part 35](https://github.com/Sanjo-varghese/chatbot-ui--DevSecOps/assets/116708794/46e36eb4-00b1-4fff-bd97-5d44c74fb7fe)
+ 
 **Check in Your Aws console whether it created EKS or not.**
+
   ![part 36](https://github.com/Sanjo-varghese/chatbot-ui--DevSecOps/assets/116708794/38ad9340-66b9-45e2-893d-dc9d457b97e4)
+
   **Ec2 instance is created for the Node group**
+  
 ![part 37](https://github.com/Sanjo-varghese/chatbot-ui--DevSecOps/assets/116708794/48040e32-8886-47a2-b25f-60606e1afaab)
 
 **Create Job for chatbot clone**
@@ -466,37 +491,51 @@ pipeline{
 **Apply and Save and click on Build**
 
 -stage view
+
 ![part 38](https://github.com/Sanjo-varghese/chatbot-ui--DevSecOps/assets/116708794/84ff77e1-b6b5-4c1d-b346-a11614b05ebf)
+
 ![part 39](https://github.com/Sanjo-varghese/chatbot-ui--DevSecOps/assets/116708794/2ff3cc1f-c60d-499f-a285-8d04e5e5151a)
 
 **You can see the report has been generated and the status shows as passed. You can see that there are 5.3k lines it scanned. To see a detailed report, you can go to issues.**
 
 **You will see that in status, a graph will also be generated and Vulnerabilities.**
+
 ![part 40](https://github.com/Sanjo-varghese/chatbot-ui--DevSecOps/assets/116708794/b7c50e28-a3e3-4de1-a1f5-aa0b6ebf0e25)
+
 - Trivy Container scan report
 
 ![part 41](https://github.com/Sanjo-varghese/chatbot-ui--DevSecOps/assets/116708794/3eaa60e5-e752-4f4f-90ea-ab67089a4e96)
+
 - Trivy File scan report
+
 ![part 42](https://github.com/Sanjo-varghese/chatbot-ui--DevSecOps/assets/116708794/5ccca080-9cf6-4ad8-bb22-fb6db06775e9)
 
 **<Jenkins-public-ip:3000>**
 
 **You will get this output**
+
 ![part 43](https://github.com/Sanjo-varghese/chatbot-ui--DevSecOps/assets/116708794/5d80e1f2-81bc-41b5-b608-7e119c712227)
+
 - Click on openai.com to generate the API TOKEN
 - Click on Create new secret key
 
 ![part 44](https://github.com/Sanjo-varghese/chatbot-ui--DevSecOps/assets/116708794/d163bf21-4100-4c5f-bb4c-b7e9ddac5551)
+
 **Give Name and click on Create**
+
 ![part 45](https://github.com/Sanjo-varghese/chatbot-ui--DevSecOps/assets/116708794/2d0da726-72e1-4f2d-993f-e287351ccc51)
+
 **Copy Token and use**
 
 ![part 46](https://github.com/Sanjo-varghese/chatbot-ui--DevSecOps/assets/116708794/873c89ba-b334-4f19-811b-f7734472681c)
-- Come back to chatbot UI that we deployed and bottom of the page you will see OpenAI API key and give the Generated key and click on save (RIGHT MARK)
+
+- Come back to chatbot UI that we deployed and bottom of the page you will see OpenAI API key and give the Generated key and click on save(RIGHT MARK)
+
 ![part 47](https://github.com/Sanjo-varghese/chatbot-ui--DevSecOps/assets/116708794/9cabc770-eca3-44ba-a8c9-0386f8387fff)
 
 **You will see page like this**
 **You can ask questions Now**
+
 ![part 48](https://github.com/Sanjo-varghese/chatbot-ui--DevSecOps/assets/116708794/2dacef11-648c-4738-8d15-e7874cb39e78)
 
 - Or you can generate from Rapidapi.com
@@ -506,12 +545,14 @@ pipeline{
 - Now In the Jenkins Instance
 
 **Give this command**
+
 ```sh
 aws eks update-kubeconfig --name <clustername> --region <region>
 ```
 **It will Generate an Kubernetes configuration file**
 
 **Here is the path for config file**
+
 ```sh
 cd .kube
 cat config
@@ -632,13 +673,17 @@ pipeline{
 ```
 
 **Apply and save , Run the build to deploy to eks**
+
 ![part 51](https://github.com/Sanjo-varghese/chatbot-ui--DevSecOps/assets/116708794/b81dcc40-06cc-49d8-97bd-2e37c1233e2d)
+
 **In the Jenkins give this command**
+
 ```sh
 kubectl get all
 kubectl get svc #use anyone
 ```
 - Here it will generate loadbalancer DNS dont forgot.
+- 
 ![part 52](https://github.com/Sanjo-varghese/chatbot-ui--DevSecOps/assets/116708794/b7368122-b851-4e64-ac70-a2b9161373c7)
 
 **Open the load-balancer port to the Cluster EC2 instance**
@@ -653,11 +698,13 @@ kubectl get svc #use anyone
 
 **Do the same process and add key to get output**
 **Here is sample query output i used**
+
 ![a1bbe788-6046-462d-9249-b24c13eccf44](https://github.com/Sanjo-varghese/chatbot-ui--DevSecOps/assets/116708794/26ed8f70-8286-421b-a87d-f1a3968a9b8c)
 
 - DESTRUCTION
 
 **Update the pipeline with this code and Run again to remove the deployment and container**
+
  ```sh
 pipeline{
     agent any
@@ -688,6 +735,7 @@ pipeline{
         }
     }
 ```
+
 **The above Script will remove Loadbalancer from Ec2 and removes deployment.**
 
 **Go to EKS job to destroy cluster**
