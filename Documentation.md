@@ -293,6 +293,61 @@ terraform
 
 **Create EKS Cluster from Jenkins**
 
-<div><span style="color: #ff0000">C</span><span style="color: #ff0e00">H</span><span style="color: #ff1c00">A</span><span style="color: #ff2a00">N</span><span style="color: #ff3800">G</span><span style="color: #ff4700">E</span><span style="color: #ff5500"> </span><span style="color: #ff6300">Y</span><span style="color: #ff7100">O</span><span style="color: #ff7f00">U</span><span style="color: #ff8f00">R</span><span style="color: #ff9f00"> </span><span style="color: #ffaf00">S</span><span style="color: #ffbf00">3</span><span style="color: #ffcf00"> </span><span style="color: #ffdf00">B</span><span style="color: #ffef00">U</span><span style="color: #ffff00">C</span><span style="color: #e3ff00">K</span><span style="color: #c6ff00">E</span><span style="color: #aaff00">T</span><span style="color: #8eff00"> </span><span style="color: #71ff00">N</span><span style="color: #55ff00">A</span><span style="color: #39ff00">M</span><span style="color: #1cff00">E</span><span style="color: #00ff00"> </span><span style="color: #00ff20">I</span><span style="color: #00ff40">N</span><span style="color: #00ff60"> </span><span style="color: #00ff80">T</span><span style="color: #00ff9f">H</span><span style="color: #00ffbf">E</span><span style="color: #00ffdf"> </span><span style="color: #00ffff">B</span><span style="color: #00e3ff">A</span><span style="color: #00c6ff">C</span><span style="color: #00aaff">K</span><span style="color: #008eff">E</span><span style="color: #0071ff">N</span><span style="color: #0055ff">D</span><span style="color: #0039ff">.</span><span style="color: #001cff">T</span><span style="color: #0000ff">F</span></div>
+- CHANGE YOUR S3 BUCKET NAME IN THE BACKEND.TF
  
 **Now create a new job for the Eks provision**
+![part 32](https://github.com/Sanjo-varghese/chatbot-ui--DevSecOps/assets/116708794/40bc2cc8-c4e2-4081-98c9-4594475d05b7)
+
+**I want to do this with build parameters to apply and destroy while building only.**
+
+**you have to add this inside job like the below image**
+
+![part 33](https://github.com/Sanjo-varghese/chatbot-ui--DevSecOps/assets/116708794/57027153-93bb-4e72-9ac1-53d922db0f3e)
+
+**Let’s add a pipeline**
+```sh
+pipeline{
+    agent any
+    stages {
+        stage('Checkout from Git'){
+            steps{
+                git branch: 'legacy', url: 'https://github.com/Sanjo-varghese/chatbot-ui--DevSecOps.git'
+            }
+        }
+        stage('Terraform version'){
+             steps{
+                 sh 'terraform --version'
+             }
+        }
+        stage('Terraform init'){
+             steps{
+                 dir('Eks-terraform') {
+                      sh 'terraform init'
+                   }
+             }
+        }
+        stage('Terraform validate'){
+             steps{
+                 dir('Eks-terraform') {
+                      sh 'terraform validate'
+                   }
+             }
+        }
+        stage('Terraform plan'){
+             steps{
+                 dir('Eks-terraform') {
+                      sh 'terraform plan'
+                   }
+             }
+        }
+        stage('Terraform apply/destroy'){
+             steps{
+                 dir('Eks-terraform') {
+                      sh 'terraform ${action} --auto-approve'
+                   }
+             }
+        }
+    }
+}
+```
+**Let’s apply and save and Build with parameters and select action as apply**
