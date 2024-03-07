@@ -293,7 +293,6 @@ terraform
 
 **Create EKS Cluster from Jenkins**
 
-<span style="background-color: #FFFF00">CHANGE YOUR S3 BUCKET NAME IN THE BACKEND.TF</span>
+<mark>CHANGE YOUR S3 BUCKET NAME IN THE BACKEND.TF</mark>
  
-
 **Now create a new job for the Eks provision**
