@@ -22,3 +22,33 @@
 **Select entity type as AWS service Use case as EC2 and click on Next**
 
 ![part2](https://github.com/Sanjo-varghese/chatbot-ui--DevSecOps/assets/116708794/25cd49c2-b8a2-4322-843b-5a87c0638c6e)
+
+**For permission policy select Administrator Access (Just for learning purpose), click Next.**
+![part 3](https://github.com/Sanjo-varghese/chatbot-ui--DevSecOps/assets/116708794/a07b6ba4-5a93-479b-9082-fb317cce1e76)
+
+**Provide a Name for Role and click on Create role,you can use any name for role.**
+
+![part 4](https://github.com/Sanjo-varghese/chatbot-ui--DevSecOps/assets/116708794/21ed751b-bbe1-406b-8955-2816db3aaeb7)
+
+**Role is created.**
+
+![part 5](https://github.com/Sanjo-varghese/chatbot-ui--DevSecOps/assets/116708794/4fc1d641-af56-4744-8429-90d5fbe7ea86)
+
+**Now Attach this role to Ec2 instance that we created earlier, so we can provision cluster from that instance.**
+
+**Go to EC2 Dashboard and select the instance.**
+
+**Click on Actions –> Security –> Modify IAM role.**
+
+![part 6](https://github.com/Sanjo-varghese/chatbot-ui--DevSecOps/assets/116708794/f8ea6205-bd01-4d12-a6b3-f7b78d8703c2)
+
+**Select the Role that created earlier and click on Update IAM role.**
+![part 7](https://github.com/Sanjo-varghese/chatbot-ui--DevSecOps/assets/116708794/0a921d3d-9814-4995-996d-bd42c900e961)
+
+Connect the instance to Mobaxtreme or Putty
+
+- Install Jenkins, Docker and Trivy
+- To Install Jenkins
+- Connect to your console, and enter these commands to Install Jenkins
+
+
