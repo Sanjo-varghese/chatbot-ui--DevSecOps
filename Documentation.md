@@ -683,7 +683,7 @@ kubectl get all
 kubectl get svc #use anyone
 ```
 - Here it will generate loadbalancer DNS dont forgot.
-- 
+
 ![part 52](https://github.com/Sanjo-varghese/chatbot-ui--DevSecOps/assets/116708794/b7368122-b851-4e64-ac70-a2b9161373c7)
 
 **Open the load-balancer port to the Cluster EC2 instance**
