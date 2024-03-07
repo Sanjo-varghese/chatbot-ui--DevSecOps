@@ -282,5 +282,18 @@ sudo chmod 777 script.sh
 **In Jenkins**
 
 ```sh
-which terraform
+terraform
 ```
+![part 30](https://github.com/Sanjo-varghese/chatbot-ui--DevSecOps/assets/116708794/f8eb06dd-6d31-43c2-a8de-680ad991983d)
+
+**Go to manage Jenkins –> Credentials**
+
+**Add DockerHub Username and Password under Global Credentials**
+![part 31](https://github.com/Sanjo-varghese/chatbot-ui--DevSecOps/assets/116708794/9009232f-6597-4915-94bd-84fdb32bb2b5)
+
+**Create EKS Cluster from Jenkins**
+
+<span style="background-color: #FFFF00">CHANGE YOUR S3 BUCKET NAME IN THE BACKEND.TF</span>
+ 
+
+**Now create a new job for the Eks provision**
