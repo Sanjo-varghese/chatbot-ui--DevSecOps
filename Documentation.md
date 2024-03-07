@@ -351,3 +351,285 @@ pipeline{
 }
 ```
 **Let’s apply and save and Build with parameters and select action as apply**
+![part 34](https://github.com/Sanjo-varghese/chatbot-ui--DevSecOps/assets/116708794/87d0c5f8-f095-414b-9224-830a1456ed49)
+- Stage view it will take max 10mins to provision
+- Blue ocean output
+ ![part 35](https://github.com/Sanjo-varghese/chatbot-ui--DevSecOps/assets/116708794/46e36eb4-00b1-4fff-bd97-5d44c74fb7fe)
+**Check in Your Aws console whether it created EKS or not.**
+  ![part 36](https://github.com/Sanjo-varghese/chatbot-ui--DevSecOps/assets/116708794/38ad9340-66b9-45e2-893d-dc9d457b97e4)
+  **Ec2 instance is created for the Node group**
+![part 37](https://github.com/Sanjo-varghese/chatbot-ui--DevSecOps/assets/116708794/48040e32-8886-47a2-b25f-60606e1afaab)
+
+**Create Job for chatbot clone**
+
+**Add this stage to Pipeline Script**
+
+```sh
+pipeline{
+    agent any
+    tools{
+        jdk 'jdk17'
+        nodejs 'node19'
+    }
+    environment {
+        SCANNER_HOME=tool 'sonar-scanner'
+    }
+    stages {
+        stage('Checkout from Git'){
+            steps{
+                git branch: 'legacy', url: 'https://github.com/Sanjo-varghese/chatbot-ui--DevSecOps.git'
+            }
+        }
+        stage('Install Dependencies') {
+            steps {
+                sh "npm install"
+            }
+        }
+        stage("Sonarqube Analysis "){
+            steps{
+                withSonarQubeEnv('sonar-server') {
+                    sh ''' $SCANNER_HOME/bin/sonar-scanner -Dsonar.projectName=Chatbot \
+                    -Dsonar.projectKey=Chatbot '''
+                }
+            }
+        }
+        stage("quality gate"){
+           steps {
+                script {
+                    waitForQualityGate abortPipeline: false, credentialsId: 'Sonar-token'
+                }
+            }
+        }
+        stage('OWASP FS SCAN') {
+            steps {
+                dependencyCheck additionalArguments: '--scan ./ --disableYarnAudit --disableNodeAudit', odcInstallation: 'DP-Check'
+                dependencyCheckPublisher pattern: '**/dependency-check-report.xml'
+            }
+        }
+        stage('TRIVY FS SCAN') {
+            steps {
+                sh "trivy fs . > trivyfs.json"
+            }
+        }
+        stage("Docker Build & Push"){
+            steps{
+                script{
+                   withDockerRegistry(credentialsId: 'docker', toolName: 'docker'){
+                       sh "docker build -t chatbot ."
+                       sh "docker tag chatbot sanjovarghese/chatbot:latest "
+                       sh "docker push sanjovarghese/chatbot:latest "
+                    }
+                }
+            }
+        }
+        stage("TRIVY"){
+            steps{
+                sh "trivy image sanjovarghese/chatbot:latest > trivy.json"
+            }
+        }
+        stage ("Remove container") {
+            steps{
+                sh "docker stop chatbot | true"
+                sh "docker rm chatbot | true"
+             }
+        }
+        stage('Deploy to container'){
+            steps{
+                sh 'docker run -d --name chatbot -p 3000:3000 sanjovarghese/chatbot:latest'
+            }
+        }
+    }
+```
+**Apply and Save and click on Build**
+
+-stage view
+![part 38](https://github.com/Sanjo-varghese/chatbot-ui--DevSecOps/assets/116708794/84ff77e1-b6b5-4c1d-b346-a11614b05ebf)
+![part 39](https://github.com/Sanjo-varghese/chatbot-ui--DevSecOps/assets/116708794/2ff3cc1f-c60d-499f-a285-8d04e5e5151a)
+
+**You can see the report has been generated and the status shows as passed. You can see that there are 5.3k lines it scanned. To see a detailed report, you can go to issues.**
+
+**You will see that in status, a graph will also be generated and Vulnerabilities.**
+![part 40](https://github.com/Sanjo-varghese/chatbot-ui--DevSecOps/assets/116708794/b7c50e28-a3e3-4de1-a1f5-aa0b6ebf0e25)
+- Trivy Container scan report
+
+![part 41](https://github.com/Sanjo-varghese/chatbot-ui--DevSecOps/assets/116708794/3eaa60e5-e752-4f4f-90ea-ab67089a4e96)
+- Trivy File scan report
+![part 42](https://github.com/Sanjo-varghese/chatbot-ui--DevSecOps/assets/116708794/5ccca080-9cf6-4ad8-bb22-fb6db06775e9)
+
+**<Jenkins-public-ip:3000>**
+
+**You will get this output**
+![part 43](https://github.com/Sanjo-varghese/chatbot-ui--DevSecOps/assets/116708794/5d80e1f2-81bc-41b5-b608-7e119c712227)
+- Click on openai.com to generate the API TOKEN
+- Click on Create new secret key
+
+![part 44](https://github.com/Sanjo-varghese/chatbot-ui--DevSecOps/assets/116708794/d163bf21-4100-4c5f-bb4c-b7e9ddac5551)
+**Give Name and click on Create**
+![part 45](https://github.com/Sanjo-varghese/chatbot-ui--DevSecOps/assets/116708794/2d0da726-72e1-4f2d-993f-e287351ccc51)
+**Copy Token and use**
+
+![part 46](https://github.com/Sanjo-varghese/chatbot-ui--DevSecOps/assets/116708794/873c89ba-b334-4f19-811b-f7734472681c)
+- Come back to chatbot UI that we deployed and bottom of the page you will see OpenAI API key and give the Generated key and click on save (RIGHT MARK)
+![part 47](https://github.com/Sanjo-varghese/chatbot-ui--DevSecOps/assets/116708794/9cabc770-eca3-44ba-a8c9-0386f8387fff)
+
+**You will see page like this**
+**You can ask questions Now**
+![part 48](https://github.com/Sanjo-varghese/chatbot-ui--DevSecOps/assets/116708794/2dacef11-648c-4738-8d15-e7874cb39e78)
+
+- Or you can generate from Rapidapi.com
+
+- https://rapidapi.com/hub
+
+- Now In the Jenkins Instance
+
+**Give this command**
+```sh
+aws eks update-kubeconfig --name <clustername> --region <region>
+```
+**It will Generate an Kubernetes configuration file**
+
+**Here is the path for config file**
+```sh
+cd .kube
+cat config
+```
+- copy the file that generates
+ 
+**Save it in your local file explorer, at your desired location with any name as text file.**
+
+![part 49](https://github.com/Sanjo-varghese/chatbot-ui--DevSecOps/assets/116708794/7d9ef337-deb5-4b8d-af75-177c57680fb4)
+
+**Let’s add the Final script with Kubernetes**
+
+**Go to manage Jenkins –> manage credentials –> Click on Jenkins global –> add credentials**
+
+**Select Kind as Secret file and choose the file that you saved in your local for kubernetes configuration.**
+
+![part 50](https://github.com/Sanjo-varghese/chatbot-ui--DevSecOps/assets/116708794/6c34944c-2fd1-4d67-bdb6-8ef9c9745b0d)
+
+```sh
+stage('Deploy to kubernets'){
+            steps{
+                script{
+                    withKubeConfig(caCertificate: '', clusterName: '', contextName: '', credentialsId: 'k8s', namespace: '', restrictKubeConfigAccess: false, serverUrl: '') {
+                       sh 'kubectl apply -f k8s/chatbot-ui.yaml'
+                  }
+                }
+            }
+        }
+```
+**Complete script**
+
+**Dont forgot to update the Image in chatbot-ui yml file**
+
+```sh
+pipeline{
+    agent any
+    tools{
+        jdk 'jdk17'
+        nodejs 'node19'
+    }
+    environment {
+        SCANNER_HOME=tool 'sonar-scanner'
+    }
+    stages {
+        stage('Checkout from Git'){
+            steps{
+                git branch: 'legacy', url: 'https://github.com/Sanjo-varghese/chatbot-ui--DevSecOps.git'
+            }
+        }
+        stage('Install Dependencies') {
+            steps {
+                sh "npm install"
+            }
+        }
+        stage("Sonarqube Analysis "){
+            steps{
+                withSonarQubeEnv('sonar-server') {
+                    sh ''' $SCANNER_HOME/bin/sonar-scanner -Dsonar.projectName=Chatbot \
+                    -Dsonar.projectKey=Chatbot '''
+                }
+            }
+        }
+        stage("quality gate"){
+           steps {
+                script {
+                    waitForQualityGate abortPipeline: false, credentialsId: 'Sonar-token'
+                }
+            }
+        }
+        stage('OWASP FS SCAN') {
+            steps {
+                dependencyCheck additionalArguments: '--scan ./ --disableYarnAudit --disableNodeAudit', odcInstallation: 'DP-Check'
+                dependencyCheckPublisher pattern: '**/dependency-check-report.xml'
+            }
+        }
+        stage('TRIVY FS SCAN') {
+            steps {
+                sh "trivy fs . > trivyfs.json"
+            }
+        }
+        stage("Docker Build & Push"){
+            steps{
+                script{
+                   withDockerRegistry(credentialsId: 'docker', toolName: 'docker'){
+                       sh "docker build -t chatbot ."
+                       sh "docker tag chatbot sanjovarghese/chatbot:latest "
+                       sh "docker push sanjovarghese/chatbot:latest "
+                    }
+                }
+            }
+        }
+        stage("TRIVY"){
+            steps{
+                sh "trivy image sanjovarghese/chatbot:latest > trivy.json"
+            }
+        }
+        stage ("Remove container") {
+            steps{
+                sh "docker stop chatbot | true"
+                sh "docker rm chatbot | true"
+             }
+        }
+        stage('Deploy to container'){
+            steps{
+                sh 'docker run -d --name chatbot -p 3000:3000 sanjovarghese/chatbot:latest'
+            }
+        }
+        stage('Deploy to kubernets'){
+            steps{
+                script{
+                    withKubeConfig(caCertificate: '', clusterName: '', contextName: '', credentialsId: 'k8s', namespace: '', restrictKubeConfigAccess: false, serverUrl: '') {
+                       sh 'kubectl apply -f k8s/chatbot-ui.yaml'
+                  }
+                }
+            }
+        }
+    }
+```
+
+**Apply and save , Run the build to deploy to eks**
+![part 51](https://github.com/Sanjo-varghese/chatbot-ui--DevSecOps/assets/116708794/b81dcc40-06cc-49d8-97bd-2e37c1233e2d)
+**In the Jenkins give this command**
+```sh
+kubectl get all
+kubectl get svc #use anyone
+```
+- Here it will generate loadbalancer DNS dont forgot.
+![part 52](https://github.com/Sanjo-varghese/chatbot-ui--DevSecOps/assets/116708794/b7368122-b851-4e64-ac70-a2b9161373c7)
+
+**Open the load-balancer port to the Cluster EC2 instance**
+
+**otherwise it wont give output**
+
+**EXTERNAL IP IN browser gives output**
+
+- output:
+
+![part 53](https://github.com/Sanjo-varghese/chatbot-ui--DevSecOps/assets/116708794/8c0d78b2-2672-492a-8579-4e42385dfb09)
+
+**Do the same process and add key to get output**
+**Here is sample query output i used**
+![image](https://github.com/Sanjo-varghese/chatbot-ui--DevSecOps/assets/116708794/f6814131-0fc6-4c60-8a11-47e469e735bc)
+
+
