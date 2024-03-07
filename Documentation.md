@@ -208,3 +208,79 @@ sudo chmod 777 script.sh
 **12 → Kubernetes Client API**
 
 **13 → Kubernetes Pipeline DevOps steps**
+
+# Configure Java and Nodejs in Global Tool Configuration
+**Goto Manage Jenkins → Tools → Install JDK(17) and NodeJs(19)→ Click on Apply and Save**
+
+![part 17](https://github.com/Sanjo-varghese/chatbot-ui--DevSecOps/assets/116708794/488f23c6-aa2a-48dc-b356-68d0843ae472)
+
+**Grab the Public IP Address of your EC2 Instance, Sonarqube works on Port 9000, so <Public IP>:9000. Goto your Sonarqube Server.**
+
+**Click on Administration → Security → Users → Click on Tokens and Update Token → Give it a name → and click on Generate Token**
+
+![part 18](https://github.com/Sanjo-varghese/chatbot-ui--DevSecOps/assets/116708794/01ed0c69-ed91-409e-a14c-d8155d9c5f65)
+
+**click on update Token**
+![part 19](https://github.com/Sanjo-varghese/chatbot-ui--DevSecOps/assets/116708794/38a3e363-2955-42c2-a07c-6f32a8fdee98)
+
+**Create a token with a name and generate**
+
+![part 20](https://github.com/Sanjo-varghese/chatbot-ui--DevSecOps/assets/116708794/f335e308-2a34-43db-9724-093e3c156727)
+
+**copy Token**
+
+**Go to Jenkins Dashboard → Manage Jenkins → Credentials → Add Secret Text. It should look like this**
+![part 21](https://github.com/Sanjo-varghese/chatbot-ui--DevSecOps/assets/116708794/108a9ca8-b8fe-495e-bb53-db242ce9ca7e)
+
+**You will this page once you click on create**
+![part 22](https://github.com/Sanjo-varghese/chatbot-ui--DevSecOps/assets/116708794/77f3df7e-40b1-4dcb-a9ca-3143a7f3cd22)
+
+**Now, go to Dashboard → Manage Jenkins → System and Add like the below image.**
+![part 23](https://github.com/Sanjo-varghese/chatbot-ui--DevSecOps/assets/116708794/2c1e891a-d20c-4d5e-99c1-8d46e3647968)
+
+**Click on Apply and Save**
+
+**The Configure System option is used in Jenkins to configure different server**
+
+**Global Tool Configuration is used to configure different tools that we install using Plugins**
+
+**We will install a sonar scanner in the tools.**
+
+**Manage Jenkins –> Tools –> SonarQube Scanner**
+![part 24](https://github.com/Sanjo-varghese/chatbot-ui--DevSecOps/assets/116708794/02d6e487-39b5-4065-8cb6-55d03e00c08a)
+
+**In the Sonarqube Dashboard add a quality gate also**
+
+**Administration–> Configuration–>Webhooks**
+
+![part 25](https://github.com/Sanjo-varghese/chatbot-ui--DevSecOps/assets/116708794/ffcb1877-2602-4471-8b6a-4654ef1ec7c2)
+**Click on Create**
+![part 26](https://github.com/Sanjo-varghese/chatbot-ui--DevSecOps/assets/116708794/c971a9a6-024b-4a57-957c-495af6450691)
+
+**Add details**
+```sh
+#in url section of quality gate
+<http://jenkins-public-ip:8080>/sonarqube-webhook/
+```
+![part 27](https://github.com/Sanjo-varghese/chatbot-ui--DevSecOps/assets/116708794/774a7515-a058-470a-9471-6d2fb935fa25)
+
+**To see the report, you can go to Sonarqube Server and go to Projects.**
+
+**First, we configured the Plugin and next, we had to configure the Tool**
+
+**Goto Dashboard → Manage Jenkins → Tools →***
+![part 28](https://github.com/Sanjo-varghese/chatbot-ui--DevSecOps/assets/116708794/88fdd811-a8a2-4ced-a346-4432a51463a6)
+
+**Click on Apply and Save here.**
+
+**Now, goto Dashboard → Manage Jenkins → Tools →**
+
+![part 29](https://github.com/Sanjo-varghese/chatbot-ui--DevSecOps/assets/116708794/7ab2a02c-409e-459f-8dd7-169d911ca224)
+
+**Tools –> Terraform add this**
+
+**In Jenkins**
+
+```sh
+which terraform
+```
