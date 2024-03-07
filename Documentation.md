@@ -51,11 +51,11 @@
 - To Install Jenkins
 - Connect to your console, and enter these commands to Install Jenkins
 
- ``sh
+ ```sh
  vi jenkins.sh
- ``
+ ```
 
- ``sh
+ ```sh
  #!/bin/bash
 sudo apt update -y
 wget -O - https://packages.adoptium.net/artifactory/api/gpg/key/public | tee /etc/apt/keyrings/adoptium.asc
@@ -71,4 +71,140 @@ echo deb [signed-by=/usr/share/keyrings/jenkins-keyring.asc] \
 sudo apt-get update -y
 sudo apt-get install jenkins -y
 sudo systemctl start jenkins
-``
+```
+```sh
+sudo chmod 777 jenkins.sh
+sudo su   #move into root and run
+./jenkins.sh    # this will installl jenkins
+```
+
+**Once Jenkins is installed, you will need to go to your AWS EC2 Security Group and open Inbound Port 8080, since Jenkins works on Port 8080.**
+
+**Now, grab your Public IP Address**
+
+```sh
+<EC2 Public IP Address:8080>
+sudo cat /var/lib/jenkins/secrets/initialAdminPassword
+```
+
+![part 8](https://github.com/Sanjo-varghese/chatbot-ui--DevSecOps/assets/116708794/ea7c536d-5980-43c0-b663-122d92037e1f)
+
+**Unlock Jenkins using an administrative password and install the suggested plugins.**
+
+![part 9](https://github.com/Sanjo-varghese/chatbot-ui--DevSecOps/assets/116708794/91ce3c02-187f-494f-a215-2ac2cee705b4)
+
+**Jenkins will now get installed and install all the libraries.**
+
+![part 10](https://github.com/Sanjo-varghese/chatbot-ui--DevSecOps/assets/116708794/780c7089-f0c9-4ebc-b2d0-1c7b11dd7bdd)
+
+**Create a user click on save and continue.**
+
+**Jenkins Getting Started Screen.**
+
+![part 11](https://github.com/Sanjo-varghese/chatbot-ui--DevSecOps/assets/116708794/58cd9b91-e4ce-498e-89ff-4ef394e2fbb0)
+
+**Install Docker**
+```sh
+sudo apt-get update
+sudo apt-get install docker.io -y
+sudo usermod -aG docker $USER   #my case is ubuntu
+newgrp docker
+sudo chmod 777 /var/run/docker.sock
+```
+
+**After the docker installation, we create a sonarqube container (Remember to add 9000 ports in the security group).**
+
+```sh
+docker run -d --name sonar -p 9000:9000 sonarqube:lts-community
+```
+
+![part 12](https://github.com/Sanjo-varghese/chatbot-ui--DevSecOps/assets/116708794/0b76102a-dc53-489a-8efd-a2bc336260a9)
+
+**Now our Sonarqube is up and running**
+
+
+![part 13](https://github.com/Sanjo-varghese/chatbot-ui--DevSecOps/assets/116708794/b05e6e81-0bfd-416d-817e-47f6ab1f30cf)
+
+**Enter username and password, click on login and change password**
+```sh
+username admin
+password admin
+```
+
+![part 14](https://github.com/Sanjo-varghese/chatbot-ui--DevSecOps/assets/116708794/4aa10a13-ea0e-48e5-8ebc-13736e95f327)
+
+**Update New password, This is Sonar Dashboard.**
+![part 15](https://github.com/Sanjo-varghese/chatbot-ui--DevSecOps/assets/116708794/100cc850-ea1d-4283-8d22-ac6e06da1749)
+
+**Install Trivy, Kubectl,Terraform**
+```sh
+vi script.sh
+```
+
+```sh
+sudo apt-get install wget apt-transport-https gnupg lsb-release -y
+wget -qO - https://aquasecurity.github.io/trivy-repo/deb/public.key | gpg --dearmor | sudo tee /usr/share/keyrings/trivy.gpg > /dev/null
+echo "deb [signed-by=/usr/share/keyrings/trivy.gpg] https://aquasecurity.github.io/trivy-repo/deb $(lsb_release -sc) main" | sudo tee -a /etc/apt/sources.list.d/trivy.list
+sudo apt-get update
+sudo apt-get install trivy -y
+# Install Terraform
+sudo apt install wget -y
+wget -O- https://apt.releases.hashicorp.com/gpg | sudo gpg --dearmor -o /usr/share/keyrings/hashicorp-archive-keyring.gpg
+echo "deb [signed-by=/usr/share/keyrings/hashicorp-archive-keyring.gpg] https://apt.releases.hashicorp.com $(lsb_release -cs) main" | sudo tee /etc/apt/sources.list.d/hashicorp.list
+sudo apt update && sudo apt install terraform
+# Install kubectl
+sudo apt update
+sudo apt install curl -y
+curl -LO https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl
+sudo install -o root -g root -m 0755 kubectl /usr/local/bin/kubectl
+kubectl version --client
+# Install AWS CLI
+curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
+sudo apt-get install unzip -y
+unzip awscliv2.zip
+sudo ./aws/install
+```
+
+**Give permissions and run script**
+
+```sh
+sudo chmod 777 script.sh
+./script.sh
+```
+
+**Next, we will log in to Jenkins and start to configure our Pipeline in Jenkins**
+
+# Install Plugins like JDK, Sonarqube Scanner, NodeJs, OWASP Dependency Check
+
+# Install Plugin
+**Goto Manage Jenkins →Plugins → Available Plugins →**
+
+**Install below plugins**
+
+**Blue ocean**
+
+**1 → Eclipse Temurin Installer**
+
+**2 → SonarQube Scanner**
+
+**3 → NodeJs Plugin**
+
+**4 → Docker**
+
+**5 → Docker commons**
+
+**6 → Docker pipeline**
+
+**7 → Docker API**
+
+**8 → Docker Build step**
+
+**9 → Owasp Dependency Check**
+
+**10 → Kubernetes**
+
+**11 → Kubernetes CLI**
+
+**12 → Kubernetes Client API**
+
+**13 → Kubernetes Pipeline DevOps steps**
