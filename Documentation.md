@@ -702,7 +702,9 @@ kubectl get svc #use anyone
 **Do the same process and add key to get output**
 **Here is sample query output i used**
 
-![a1bbe788-6046-462d-9249-b24c13eccf44](https://github.com/Sanjo-varghese/chatbot-ui--DevSecOps/assets/116708794/26ed8f70-8286-421b-a87d-f1a3968a9b8c)
+![output](https://github.com/Sanjo-varghese/chatbot-ui--DevSecOps/assets/116708794/e6b5b262-0fb2-44f0-a3f5-8d3b2271b720)
+
+
 
 - DESTRUCTION
 
