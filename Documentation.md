@@ -464,15 +464,15 @@ pipeline{
                 script{
                    withDockerRegistry(credentialsId: 'docker', toolName: 'docker'){
                        sh "docker build -t chatbot ."
-                       sh "docker tag chatbot sanjovarghese/chatbot:latest "
-                       sh "docker push sanjovarghese/chatbot:latest "
+                       sh "docker tag chatbot sanjovarghese484/chatbot:latest "
+                       sh "docker push sanjovarghese484/chatbot:latest "
                     }
                 }
             }
         }
         stage("TRIVY"){
             steps{
-                sh "trivy image sanjovarghese/chatbot:latest > trivy.json"
+                sh "trivy image sanjovarghese484/chatbot:latest > trivy.json"
             }
         }
         stage ("Remove container") {
@@ -483,10 +483,12 @@ pipeline{
         }
         stage('Deploy to container'){
             steps{
-                sh 'docker run -d --name chatbot -p 3000:3000 sanjovarghese/chatbot:latest'
+                sh 'docker run -d --name chatbot -p 3000:3000 sanjovarghese484/chatbot:latest'
             }
         }
     }
+}
+    
 ```
 **Apply and Save and click on Build**
 
