@@ -672,6 +672,7 @@ pipeline{
             }
         }
     }
+}
 ```
 
 **Apply and save , Run the build to deploy to eks**
