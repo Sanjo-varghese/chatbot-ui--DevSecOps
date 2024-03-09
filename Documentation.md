@@ -691,7 +691,7 @@ kubectl get svc #use anyone
 
 **Open the load-balancer port to the Cluster EC2 instance**
 
-**otherwise it wont give output**
+**otherwise it wont give output** (open security group of eks cluster instance and add the port number 30296 on inbound rules)
 
 **EXTERNAL IP IN browser gives output**
 
