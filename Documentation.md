@@ -695,7 +695,7 @@ kubectl get svc #use anyone
 
 **otherwise it wont give output** (open security group of eks cluster instance and add the port number 30296 on inbound rules)
 
-**EXTERNAL IP or Loadbalancer IP gives output on browser**
+**EXTERNAL IP or Loadbalancer Dns gives output on browser**
 
 - output:
 
