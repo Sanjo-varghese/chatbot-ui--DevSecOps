@@ -492,11 +492,12 @@ pipeline{
 ```
 **Apply and Save and click on Build**
 
--stage view
+- stage view
 
 ![part 38](https://github.com/Sanjo-varghese/chatbot-ui--DevSecOps/assets/116708794/84ff77e1-b6b5-4c1d-b346-a11614b05ebf)
 
-![part 39](https://github.com/Sanjo-varghese/chatbot-ui--DevSecOps/assets/116708794/2ff3cc1f-c60d-499f-a285-8d04e5e5151a)
+![quality](https://github.com/Sanjo-varghese/chatbot-ui--DevSecOps/assets/116708794/f62dced9-03be-4b0d-bcc3-010873c80ac3)
+
 
 **You can see the report has been generated and the status shows as passed. You can see that there are 5.3k lines it scanned. To see a detailed report, you can go to issues.**
 
@@ -677,7 +678,8 @@ pipeline{
 
 **Apply and save , Run the build to deploy to eks**
 
-![part 51](https://github.com/Sanjo-varghese/chatbot-ui--DevSecOps/assets/116708794/b81dcc40-06cc-49d8-97bd-2e37c1233e2d)
+![pipelinejj](https://github.com/Sanjo-varghese/chatbot-ui--DevSecOps/assets/116708794/3306ac37-4538-4ab1-b9f0-4abcc6735406)
+
 
 **In the Jenkins give this command**
 
