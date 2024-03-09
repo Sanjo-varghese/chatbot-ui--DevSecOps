@@ -398,8 +398,8 @@ pipeline{
 - Stage view it will take max 10mins to provision
 - Blue ocean output
 
- ![part 35](https://github.com/Sanjo-varghese/chatbot-ui--DevSecOps/assets/116708794/46e36eb4-00b1-4fff-bd97-5d44c74fb7fe)
- 
+ ![blue](https://github.com/Sanjo-varghese/chatbot-ui--DevSecOps/assets/116708794/c79abf2c-f705-4ea8-9d28-8600e9a0b28c)
+
 **Check in Your Aws console whether it created EKS or not.**
 
   ![part 36](https://github.com/Sanjo-varghese/chatbot-ui--DevSecOps/assets/116708794/38ad9340-66b9-45e2-893d-dc9d457b97e4)
@@ -693,7 +693,7 @@ kubectl get svc #use anyone
 
 **otherwise it wont give output** (open security group of eks cluster instance and add the port number 30296 on inbound rules)
 
-**EXTERNAL IP IN browser gives output**
+**EXTERNAL IP or Loadbalancer IP gives output on browser**
 
 - output:
 
@@ -706,7 +706,7 @@ kubectl get svc #use anyone
 
 
 
-- DESTRUCTION
+# DESTRUCTION
 
 **Update the pipeline with this code and Run again to remove the deployment and container**
 
